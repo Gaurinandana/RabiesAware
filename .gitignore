@@ -1,0 +1,13 @@
+# Ignore sensitive credentials
+credentials.json
+
+# Python cache
+__pycache__/
+*.pyc
+
+# VS Code settings
+.vscode/
+
+# Optional: other temp files
+*.log
+*.env
