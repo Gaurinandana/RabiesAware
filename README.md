@@ -1,4 +1,3 @@
-<img width="1909" height="921" alt="Screenshot 2026-02-21 182113" src="https://github.com/user-attachments/assets/c026399f-4e6b-4770-9d44-4c9645bb6f02" />
 RabiesAware🎯
 Basic Details
 Team Name: TechTonic Minds
