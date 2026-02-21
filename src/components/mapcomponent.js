@@ -1,137 +1,96 @@
-// MapComponent.js
-// Ready to be integrated into a React website
+import React, { useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
-import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-markercluster";
-import axios from "axios";
-import "leaflet/dist/leaflet.css";
-import "react-leaflet-markercluster/dist/styles.min.css";
+// Fix for Leaflet default marker icons
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
-const MapComponent = ({ backendUrl }) => {
-  const [sightings, setSightings] = useState([]);
-  const [newSighting, setNewSighting] = useState({ lat: null, lng: null });
-  const [addressInput, setAddressInput] = useState("");
+function LocationMarker({ setLocation }) {
+  useMapEvents({
+    click(e) {
+      setLocation(e.latlng);
+    },
+  });
+  return null;
+}
 
-  // Fetch sightings every 5 seconds for real-time updates
-  useEffect(() => {
-    fetchSightings();
-    const interval = setInterval(fetchSightings, 5000);
-    return () => clearInterval(interval);
-  }, []);
+const MapComponent = () => {
+  const [location, setLocation] = useState(null);
+  const [phone, setPhone] = useState('');
+  const [status, setStatus] = useState('idle'); // idle, loading, success
 
-  const fetchSightings = async () => {
-    try {
-      const res = await axios.get(`${backendUrl}/sightings`);
-      setSightings(res.data);
-    } catch (err) {
-      console.error("Error fetching sightings:", err);
-    }
+  const kochiCenter = [9.9312, 76.2673];
+
+  const handleGPS = () => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+    });
   };
 
-  // Convert manually typed address to lat/lng
-  const handleAddressBlur = async () => {
-    if (!addressInput) return;
+  const handleSubmit = async () => {
+    if (!phone) return alert("Please enter your number");
+    setStatus('loading');
+
     try {
-      const res = await axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          addressInput
-        )}`
-      );
-      if (res.data.length > 0) {
-        setNewSighting({
-          lat: parseFloat(res.data[0].lat),
-          lng: parseFloat(res.data[0].lon),
-        });
+      const response = await fetch('http://localhost:5000/api/reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...location, phone }),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setPhone('');
       }
     } catch (err) {
-      console.error("Error with geocoding:", err);
+      alert("Backend not connected! Make sure node index.js is running.");
+      setStatus('idle');
     }
   };
-
-  // Use current device location
-  const useCurrentLocation = () => {
-    if (!navigator.geolocation) return alert("Geolocation not supported");
-    navigator.geolocation.getCurrentPosition(
-      (position) =>
-        setNewSighting({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        }),
-      () => alert("Unable to retrieve your location")
-    );
-  };
-
-  // Submit new sighting to backend
-  const reportSighting = async () => {
-    if (!newSighting.lat || !newSighting.lng) {
-      return alert("Please select a location first");
-    }
-    try {
-      await axios.post(`${backendUrl}/sightings`, newSighting);
-      setNewSighting({ lat: null, lng: null });
-      setAddressInput("");
-      fetchSightings();
-    } catch (err) {
-      console.error("Error reporting sighting:", err);
-    }
-  };
-
-  // Calculate hotspots
-  const hotspotMap = {};
-  sightings.forEach((s) => {
-    const key = `${s.lat.toFixed(3)}_${s.lng.toFixed(3)}`;
-    hotspotMap[key] = (hotspotMap[key] || 0) + 1;
-  });
-
-  const hotspots = Object.keys(hotspotMap).map((key) => {
-    const [lat, lng] = key.split("_").map(Number);
-    const count = hotspotMap[key];
-    let color = count > 8 ? "red" : count > 5 ? "orange" : "green";
-    return { lat, lng, color, count };
-  });
-
-  // Default map center (can be changed)
-  const defaultCenter = [28.6139, 77.209]; // Delhi coordinates as example
 
   return (
-    <div>
-      {/* Input controls */}
-      <div style={{ marginBottom: "10px" }}>
-        <input
-          type="text"
-          placeholder="Type address manually"
-          value={addressInput}
-          onChange={(e) => setAddressInput(e.target.value)}
-          onBlur={handleAddressBlur}
-          style={{ marginRight: "5px", width: "250px" }}
-        />
-        <button onClick={useCurrentLocation} style={{ marginRight: "5px" }}>
-          Use My Location
-        </button>
-        <button onClick={reportSighting}>Report Sighting</button>
-      </div>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h2>📍 Kochi Rabies Watch</h2>
+      
+      <button onClick={handleGPS} style={{ marginBottom: '10px', padding: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: '5px' }}>
+        Share My Current Location
+      </button>
 
-      {/* Map */}
-      <MapContainer
-        center={defaultCenter}
-        zoom={12}
-        style={{ height: "80vh", width: "100%" }}
-      >
+      <MapContainer center={kochiCenter} zoom={12} style={{ height: '400px', width: '100%', borderRadius: '10px' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        {/* Clustered markers */}
-        <MarkerClusterGroup>
-          {sightings.map((s, idx) => (
-            <Marker key={idx} position={[s.lat, s.lng]} />
-          ))}
-        </MarkerClusterGroup>
-
-        {/* Hotspot circles */}
-        {hotspots.map((h, idx) => (
-          <Circle key={idx} center={[h.lat, h.lng]} radius={50} color={h.color} />
-        ))}
+        <LocationMarker setLocation={setLocation} />
+        {location && <Marker position={location}><Popup>Dog Sighting Here</Popup></Marker>}
       </MapContainer>
+
+      {location && status !== 'success' && (
+        <div style={{ marginTop: '15px', padding: '15px', border: '1px solid #ccc', borderRadius: '5px' }}>
+          <h4>Confirm Sighting</h4>
+          <p>Location: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}</p>
+          <input 
+            type="tel" 
+            placeholder="Your Phone Number" 
+            value={phone} 
+            onChange={(e) => setPhone(e.target.value)}
+            style={{ padding: '8px', marginRight: '10px' }}
+          />
+          <button onClick={handleSubmit} style={{ padding: '8px 15px', background: '#28a745', color: 'white', border: 'none', borderRadius: '5px' }}>
+            Submit Report
+          </button>
+        </div>
+      )}
+
+      {status === 'success' && (
+        <div style={{ marginTop: '15px', padding: '20px', background: '#d4edda', color: '#155724', borderRadius: '5px' }}>
+          <strong>✅ Report Noted!</strong> Your entry has been saved to the database.
+          <button onClick={() => { setStatus('idle'); setLocation(null); }} style={{ marginLeft: '15px' }}>New Report</button>
+        </div>
+      )}
     </div>
   );
 };
