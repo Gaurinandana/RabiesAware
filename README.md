@@ -1,229 +1,80 @@
-
-# RabiesAware
-
-**A Dual-ID Digital Registry & Surveillance System for Stray Dogs**
-
-RabiesAware is a digital registry and surveillance platform designed to bridge the gap between **human safety** and **animal health**.
-
-Using an innovative **Dual-ID access system**, the platform allows anyone to verify a stray dog’s rabies vaccination status — safely and instantly.
-
----
-
-# 🚀 Project Overview
-
-RabiesAware enables:
-
-* ✅ Instant vaccination verification after a bite or scratch
-* 📍 Crowdsourced stray dog reporting
-* 🗺️ Hotspot mapping of unvaccinated dogs
-* 🏥 Emergency guidance to nearby rabies clinics
-* 🐶 NGO dashboard for vaccination tracking and booster scheduling
-
----
-
-# 🛠️ How It Works — The Dual-ID System
-
-Stray dogs can be unpredictable. RabiesAware provides **two safe ways** to access a dog's medical record.
-
-## 1️⃣ QR Code Access (Close Range)
-
-If a dog is calm or sleeping:
-
-* Scan the QR code attached to the ear tag.
-* The QR code links directly to that dog’s record in the app.
-* Instantly view vaccination history and status.
-
-## 2️⃣ Visual Tag Access (Safe Distance)
-
-If a dog is aggressive or moving:
-
-* Look at the **color-coded ear tag** (e.g., `Red #102`).
-* Type `Red 102` into the app search bar.
-* Access the same medical record — no physical interaction needed.
-
----
-
-# 🏗️ System Architecture
-
-## 📊 Database — Google Sheets
-
-Acts as the **source of truth** and stores:
-
-* Dog ID (Color + Number)
-* Vaccination dates
-* Vaccination status
-* GPS coordinates
-* Notes
-
----
-
-## 🌐 Frontend — Streamlit
-
-Built with Python and Streamlit:
-
-* Search dogs by QR or Visual Tag
-* View vaccination status
-* Report new stray sightings
-* Display status alerts
-* Provide emergency instructions
-
----
-
-## 🗺️ Mapping — Folium
-
-* Generates interactive maps
-* Displays stray hotspots
-* Helps NGOs prioritize high-risk zones
-* Visualizes crowdsourced reports
-
----
-
-# 🎯 What This Project Achieves
-
-## 🩺 Instant Verification
-
-Victims of bites or scratches can quickly confirm whether the dog is vaccinated.
-
-## 👥 Community Reporting
-
-Citizens can pin stray dog sightings on a map — building a crowdsourced census.
-
-## 🏥 NGO Tooling
-
-Animal welfare organizations can:
-
-* Track booster schedules
-* Identify unvaccinated dogs
-* Monitor vaccination coverage
-
-## 🚨 Emergency Response
-
-If a dog is marked **Unvaccinated**, the app:
-
-* Displays warning alerts
-* Provides immediate instructions
-* Directs users to the nearest rabies clinic
-
----
-
-# 🧰 Tech Stack
-
-| Tool              | Purpose                   |
-| ----------------- | ------------------------- |
-| Python            | Core programming language |
-| Streamlit         | Web app framework         |
-| Google Sheets API | Cloud database            |
-| Folium            | Interactive maps          |
-| GitHub            | Code hosting & deployment |
-
----
-
-# 📦 Installation & Setup
-
-## 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/your-username/rabiesaware.git
-cd rabiesaware
-```
-
----
-
-## 2️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-If you don’t have a `requirements.txt` file yet:
-
-```bash
-pip install streamlit pandas folium gspread oauth2client
-```
-
----
-
-## 3️⃣ Set Up Google Sheets API
-
-1. Create a Google Cloud Project
-2. Enable Google Sheets API
-3. Create a Service Account
-4. Download the JSON credentials file
-5. Share your Google Sheet with the service account email
-
-Place the credentials file inside your project directory.
-
----
-
-## 4️⃣ Run the App
-
-```bash
-streamlit run app.py
-```
-
-The app will automatically open in your browser.
-
----
-
-# 🏷️ Physical Components (Prototype Demo)
-
-To demonstrate the system:
-
-* QR codes (generated online)
-* Color-coded ear tags (e.g., Red #102)
-* Cardboard, markers, and string for prototypes
-
----
-
-# 👥 Team Roles
-
-**Backend Developer**
-
-* Connect Google Sheets API
-* Manage data handling
-
-**Frontend Developer**
-
-* Build Streamlit UI
-* Implement search & reporting
-
-**Mapping Engineer**
-
-* Integrate Folium heatmaps
-* Handle GPS visualization
-
-**Presentation & Deployment Lead**
-
-* Generate QR codes
-* Prepare mock tags
-* Deploy via GitHub
-
----
-
-# 📈 Future Improvements
-
-* Offline mode for low-connectivity areas
-* Mobile app version
-* Integration with municipal databases
-
----
-
-# ⚠️ Disclaimer
-
-RabiesAware is a surveillance and verification tool.
-It does not replace medical advice.
-Always seek immediate professional medical treatment after any animal bite or scratch.
-
----
-
-# 📜 License
-
-MIT License (Recommended for open-source community projects)
-
----
-
-# ❤️ Mission
-
-RabiesAware exists to protect both **people** and **stray animals** by making vaccination data accessible, transparent, and actionable.
-
-Together, we can reduce rabies risk through technology and community collaboration.
+<img width="1909" height="921" alt="Screenshot 2026-02-21 182113" src="https://github.com/user-attachments/assets/c026399f-4e6b-4770-9d44-4c9645bb6f02" />
+RabiesAware🎯
+Basic Details
+Team Name: TechTonic Minds
+Team Members
+Member 1: PARVATHY M - SOE,CUSAT
+Member 2: GAURINANDANA A - SOE,CUSAT
+Hosted Project Link
+[https://rabies-aware.vercel.app/]
+
+Project Description
+RabiesAware is a digital registry and surveillance system for stray dogs that uses a Dual-ID system (QR codes and color-coded tags) to track vaccination status. It enables citizens to report sightings, helps NGOs identify hotspots, and provides authorities with actionable data to improve public safety and animal health.
+
+The Problem statement
+Stray dogs pose a significant public health risk due to the spread of rabies, yet tracking their vaccination status and locations is inefficient. Authorities and NGOs often lack accurate, real-time data, leading to delayed responses, wasted resources, and potential harm to both humans and animals.
+
+The Solution
+RabiesAware addresses this by creating a digital, crowdsourced registry and mapping system to monitor stray dogs, report sightings, and identify hotspots making it convinient for NGOs and ABC centre workers,helping them work more efficiently and saving time.Also provides a database to store vaccination details of strays to administer booster shots timely.
+
+Technical Details
+Technologies/Components Used
+For Software:
+
+Languages used: JavaScript,Python,CSS,JSON
+Frameworks used: React,Express.js,React-Leaflet
+Libraries used: React-Leaflet,Leaflet,gspread,pandas,Express.js,axios,react-geolocated,react-leaflet-markcluster
+Tools used:VS Code,Node.js,Github,google sheets,google cloud console,React-Leaflet,Leaflet
+
+Implementation
+For Software:
+Installation
+npm install
+Run
+npm run start
+
+Project Documentation
+For Software:
+Screenshots (Add at least 3)
+<img width="1909" height="921" alt="Screenshot 2026-02-21 182113" src="https://github.com/user-attachments/assets/576c9ecd-8493-4923-a946-6517cf0e44d4" />
+<img width="1856" height="870" alt="Screenshot 2026-02-21 182132" src="https://github.com/user-attachments/assets/202fe2ec-b5de-4800-a605-93c22b584d33" />
+<img width="1691" height="411" alt="Screenshot 2026-02-21 182154" src="https://github.com/user-attachments/assets/3b9c4e34-a3ea-4ce9-8e3f-994dd294c98f" />
+<img width="1858" height="811" alt="Screenshot 2026-02-21 182225" src="https://github.com/user-attachments/assets/387e3309-437a-4637-9225-5db4edf237c0" />
+
+Diagrams
+System Architecture:
+
+Data Layer: Google Sheets stores vaccination info and stray dog sightings. 
+Frontend: React + React-Leaflet displays an interactive map with reported sightings and highlights hotspots. 
+Users: Citizens report sightings; NGOs and authorities use the map to plan interventions. 
+
+Application Workflow:
+
+Citizens report stray dog sightings → Data stored → React map shows sightings and hotspots for NGOs/authorities.
+Ear tag having QR or Colour-code on dog ear -> scanned -> give vaccination details
+Project Demo
+Video
+https://drive.google.com/file/d/11bqxO4yV_RUAepAWy1IFCyHC99-R47oE/view?usp=drivesdk
+
+VIDEO SHOWS THE DATABASE TO STORE VACCINATED DOG DETAILS. THE WEBSITE ITS FEATURES AND HOW THRY WORK IN DETAIL.SHOWS HOW THE WEBSITE FETCHES A DATA OF VACCINATED DOG INFO WE HAVE GIVEN EARLIER IN THE DATABASE.SHOWS HOW LOCATION IS SHOWN IN THE MAP AND HOTSPOTS ARE IDENTIFIED WHEN LOCATION OF STRAY DOG SIGHTINGS ARE GIVEN.SHOWS HOW MEDICAL ASSISSTANCE IS SUGGESTED TO ENSURE CALMER APPROACH TO ANY STRAY DOG ACCIDENTS.
+
+AI Tools Used (Optional - For Transparency Bonus)
+If you used AI tools during development, document them here for transparency:
+
+Tool Used: ChatGPT,Gemini,Versel,render
+
+Purpose: vibecoding and deployement
+
+Team Contributions
+Gaurinandana A: database,mapping,api integration,backend(not used in the prototype currently)
+Parvathy M: frontend development,deployment
+
+License
+This project is licensed under the [LICENSE_NAME] License - see the LICENSE file for details.
+
+Common License Options:
+
+MIT License (Permissive, widely used)
+Apache 2.0 (Permissive with patent grant)
+GPL v3 (Copyleft, requires derivative works to be open source)
+Made with ❤️ at TinkerHub
