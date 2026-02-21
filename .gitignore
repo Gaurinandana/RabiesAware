@@ -11,3 +11,5 @@ __pycache__/
 # Optional: other temp files
 *.log
 *.env
+ra_be/node_modules/
+ra_be/sightings.json
